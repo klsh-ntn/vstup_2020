@@ -1,0 +1,410 @@
+\documentclass{article}
+
+\usepackage[a5paper, %
+		top=1.1truecm, %
+		bottom=1.1truecm, %
+		right=1.5truecm, %
+		left=1.5truecm, %
+		twoside, %
+		includeheadfoot, %
+		headsep=12pt, %
+		footskip=18pt %
+]{geometry}
+\usepackage{setspace}
+\usepackage{wrapfig}
+\usepackage{euler} % bb: use modern eulervm? 
+\usepackage[usenames]{color} % цвета
+
+\usepackage[euler]{textgreek}
+%\usepackage[utf8]{inputenc} % подразумевается в XeLaTeX
+\usepackage[X2,T2A]{fontenc} % для математических акцентов
+\newcommand{\Е}{{\fontencoding{X2}\selectfont\CYRYAT}} % Буква Ять ЗАГЛАВНАЯ на рус. клавише «Ее»
+\newcommand{\е}{{\fontencoding{X2}\selectfont\cyryat}} % Буква Ять строчная
+
+%\usepackage[greek,icelandic,russian]{babel} % bb: NO babel with xelatex
+
+\usepackage{fontspec} %% выбор шрифтов
+\usepackage{polyglossia} %% bb: instead of babel
+
+\setmainlanguage{russian} %% bb: instead of babel
+\setotherlanguages{greek,icelandic} %% bb: instead of babel
+
+\setmainfont[Ligatures=TeX,
+			 Path = fonts/,
+             BoldFont=MuseoSansCyrl-700.otf,
+             ItalicFont=CharterOSC-Italic.otf,
+             BoldItalicFont=MuseoSansCyrl-700Italic.otf,
+             SmallCapsFont=CharterSCC.otf
+             ]{CharterOSC.otf}
+
+%% bb: here we should specify correct font!:
+\newfontfamily{\cyrillicfont}{Linux Libertine O}
+\newfontfamily{\cyrillicfonttt}{Linux Libertine O}
+
+
+\usepackage{amsmath, amssymb}
+\usepackage[nointegrals]{wasysym} % bb: moved after amsmath according to https://tex.stackexchange.com/questions/336043/
+
+
+\usepackage{booktabs} % bb: added for beautiful tables
+\usepackage{shapepar}
+\usepackage{anyfontsize}
+\usepackage{listings}
+%\usepackage[dvips] {graphicx} % dvips
+\usepackage{calc}
+\usepackage{rotating}
+\usepackage{graphicx}
+%\usepackage{pscyr}
+\usepackage{picinpar}
+\usepackage{hyperref}
+\usepackage{multicol}
+\setlength{\columnsep}{1cm}
+\usepackage{multirow}
+\usepackage{epic}
+\usepackage{epigraph}
+\usepackage{eepic}
+\usepackage{paralist}
+\usepackage{lscape}
+\usepackage{comment}
+
+\usepackage{version}
+\usepackage[version = 3]{mhchem}
+\usepackage{enumitem} % дополнительные плюшки для списков
+
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ} % для списков с русскими буквами
+\setlist[enumerate, 1]{label=\asbuk*),ref=\asbuk*}
+
+\includeversion{print}
+%\excludeversion{print}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Низкоуровневая настройка
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input letterspacing.tex
+
+	\parskip=1pt
+
+	\tolerance=350
+	\pretolerance=100
+	\widowpenalty=500
+	\displaywidowpenalty=500
+	\clubpenalty=500
+
+	\brokenpenalty=500
+	\interlinepenalty=500
+	
+	
+
+	\predisplaypenalty=100
+	\postdisplaypenalty=100
+	\adjdemerits=250000
+
+	\doublehyphendemerits=250000
+	\finalhyphendemerits=250000
+	\lineskip=0pt % \baselineskip
+	\righthyphenmin=2
+	\lefthyphenmin=2
+	\uchyph=0
+
+\frenchspacing
+\newcommand{\kerning}[2]{\letterspace to #1\naturalwidth{#2}}
+\newcounter{nnn}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Настройка постоянных констант текста
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\theyear}{$2020$}
+\newcommand{\theseason}{XLV}
+\newcommand{\deadline}{{1~февраля}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Изменение расстояния для списка \itemize
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newenvironment{itemize}%
+%{\begin{list}{$\bullet$}{\setlength{\itemsep}{0cm}%
+%\setlength{\parsep}{0cm}\setlength{\topsep}{2mm}\item}}{\end{list}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Специальные команды верстки
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\ItemWindowPar}[3]{
+\parbox[t]{\textwidth - \leftmargin}{
+	\par\vspace{-0.8\baselineskip}\par
+	\begin{window}[#1,l,#2,{}]
+	#3
+	\end{window}\par\vspace{0.3\baselineskip}\par
+}
+}
+
+\newcommand{\ItemWindowParRight}[3]{
+\parbox[t]{\textwidth - \leftmargin}{
+	\par\vspace{-0.8\baselineskip}\par
+	\begin{window}[#1,r,#2,{}]
+	#3
+	\end{window}\par\vspace{0.3\baselineskip}\par
+}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	размеры шрифтов
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newlength{\SkipBetweenLine}
+\newlength{\SkipBetweenSmallLine}
+\setlength{\SkipBetweenLine}{14pt} % 15.
+\setlength{\SkipBetweenSmallLine}{12.5pt}
+\newfontfamily\afont[Script=Arabic]{KacstOffice}
+\spaceskip=5pt plus 2.5pt minus 2.5pt % ограничим растяжимость пробелов между словами
+
+\newcommand{\TableSize}{\fontsize{9.5pt}{\SkipBetweenLine}\selectfont}
+\newcommand{\QuoteSize}{\fontsize{11pt}{\SkipBetweenLine}\selectfont}
+\newcommand{\IntroSize}{\fontsize{11.2pt}{\SkipBetweenLine}\selectfont}
+\newcommand{\EnglishIntroSize}{ \fontsize{11.2pt}{\SkipBetweenLine}\selectfont}
+\newcommand{\TasksSize}{\fontsize{10pt}{\SkipBetweenLine}\selectfont}
+\newcommand{\FooterSize}{\fontsize{8.3pt}{\SkipBetweenSmallLine}\selectfont}
+\newcommand{\HeaderSize}{\fontsize{7.6pt}{\SkipBetweenLine}\selectfont}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Установка колонтитулов
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\MarginOutlet}{0.5cm} % допуск выхода на поля логотипов и колонтитулов
+\newcommand{\RuleThickness}{0.7pt}
+\newcommand{\HeaderRuleSkip}{-2pt}
+
+\newcommand{\Header}{\FooterSize%
+   \scshape К{\HeaderSize расноярская}%
+\hspace{4pt}Л{\HeaderSize етняя}%
+\hspace{4pt}Ш{\HeaderSize кола}%
+\hspace{4pt}—%
+\hspace{4pt}\theyear}
+
+\newlength{\HeaderLength}
+\settowidth{\HeaderLength}{%\fontencoding{T2A}\selectfont
+\Header}
+
+\newcommand{\LeftHeader}{\parbox{0pt}{\mbox{\Header}}\rule[\HeaderRuleSkip]{\HeaderLength}{\RuleThickness}}
+\newcommand{\RightHeader}{
+	\parbox{0pt}{\parbox{\HeaderLength}{\hfill\mbox{\Header}}}%
+	\mbox{}{\makebox[\HeaderLength]{\hfill\rule[\HeaderRuleSkip]{\HeaderLength}{\RuleThickness}}}}
+
+\pagestyle{myheadings}
+\makeatletter
+
+\renewcommand{\@oddhead}{\hspace{-\MarginOutlet}\LeftHeader}
+\renewcommand{\@evenhead}{\parbox{\textwidth + \MarginOutlet}{\hfill\RightHeader}}
+\renewcommand{\@oddfoot}{{\sloppy\hfill\FooterSize\thepage}}
+\renewcommand{\@evenfoot}{{\sloppy\FooterSize\thepage\hfill}}
+
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\RimNum}[1]{\uppercase\expandafter{\romannumeral #1\relax}}
+\begin{document}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 			Первая страница
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\thispagestyle{empty}
+\rule{0pt}{0pt}
+\enlargethispage{1\baselineskip}
+
+{\centering
+\mbox{}
+\vspace{-4\baselineskip}
+
+КРОО „Красноярская Летняя Школа“\\
+Министерство образования Красноярского края\\
+Сибирский федеральный университет\\
+Красноярская университетская гимназия \textnumero $1$ – Универс
+
+\vfill
+\vspace{-4\baselineskip}
+\includegraphics[scale=1]{./images/klsh_logo.pdf}\par
+\vspace{-2\baselineskip}
+{\fontsize{20}{60}\selectfont Вступительное задание}
+\vfill
+\ \\
+\theyear{}
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 			Дорогой друг
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\begin{comment}
+
+\newpage
+
+\newlength{\LogoHeight}
+\setlength{\LogoHeight}{67pt}
+
+\vspace{1.4\baselineskip}
+
+\input dear-utf8.tex
+
+%\end{comment}
+
+\TasksSize
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	Отступы в списках пакета paralist:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setdefaultleftmargin{21pt}{2.5em}{2.5em}{}{}{}
+\plparsep = 0.5\baselineskip
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 			Точные науки
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\noindent{\huge\scshape Направление Точных Наук\\(9 задач)}
+
+\vspace{2\baselineskip}
+
+\input exact-utf8_phisics.tex
+
+\vspace{2\baselineskip}
+
+% \newpage
+\input exact-utf8_math.tex
+
+\vspace{2\baselineskip}
+
+% \newpage
+\input exact-utf8_it.tex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 			Естественные науки
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\noindent{\huge\scshape Направление Естественных Наук\\(9 задач)}
+
+\vspace{2\baselineskip}
+
+\input natural-utf8_chemistry.tex
+
+\vspace{2\baselineskip}
+
+%\newpage
+\input natural-utf8_medicine.tex
+
+\vspace{1\baselineskip}
+
+% \newpage
+\input natural-utf8_biology.tex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 			Общественные науки
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\noindent{\huge\scshape Направление Общественных Наук\\(9 задач)}
+
+
+\vspace{1\baselineskip}
+
+\rule{0pt}{0pt}\hfill\parbox[t]{0.923\textwidth}{
+{\it\small
+\parskip=6pt\parindent=0pt
+\noindent Дорогой друг!%\newline %\parfillskip=1fil
+
+Если ты хочешь поступить на направление общественных наук, реши для этого любые две задачи по математике в дополнение к задачам направления.
+}
+}
+
+\vspace{2\baselineskip}
+
+\input society-utf8_economy.tex
+
+\vspace{2\baselineskip}
+
+% \newpage
+\input society-utf8_history.tex
+
+\vspace{2\baselineskip}
+
+%\newpage
+\input society-utf8_society.tex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 			Филологические науки
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\noindent{\huge\scshape Направление Филологических \mbox{Наук}\\(9 задач)}
+
+\vspace{2\baselineskip}
+
+\input lingua-utf8_culture.tex
+
+\vspace{2\baselineskip}
+
+% \newpage
+\input lingua-utf8_lingua.tex
+
+\vspace{2\baselineskip}
+
+% \newpage
+\input lingua-utf8_literature.tex
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 			Прощальный спам
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\begin{comment}
+
+\newpage
+
+\setlength{\LogoHeight}{67pt}
+
+\vspace{1.4\baselineskip}
+
+\input goodbye-utf8.tex
+\newpage
+
+%\end{comment}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 			Канеза!
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{print}
+
+\spaceskip=3.55pt plus 3.5pt minus 3.5pt
+
+\enlargethispage{\baselineskip}
+
+\pagestyle{myheadings}
+\makeatletter
+
+\renewcommand{\@oddfoot}{}
+\renewcommand{\@evenfoot}{}
+
+\makeatother
+\thispagestyle{empty}
+
+ 
+%  \begin{center}
+%    {\tiny\null\vfill
+%           Напечатано при поддержке КГАУ ``КРИТБИ'' \\
+%Красноярский инновационно-технологический бизнес-инкубатор \\
+%www.kritbi.ru, www.facebook.com/kritbi/, https://vk.com/kritbi{\_}krsk\\
+%Уч.-изд. л. $1$,$5$. Печать офсетная\\
+%тираж $2000$ экз.\\
+%Отпечатано в типографии ``Ситалл'', $660074$, Красноярск, ул.~Борисова $14$.\\
+%$ $\\
+%Запишись на бесплатные занятия  в ближайший\\
+%Центр инновационного молодежного творчества (ЦМИТ)\\
+%\vspace{-1.3\baselineskip}
+%по тел. ($391$) $201$-$77$-$77$, доб.$2007$}
+%  \end{center}
+\end{print}
+
+\end{document}
+
